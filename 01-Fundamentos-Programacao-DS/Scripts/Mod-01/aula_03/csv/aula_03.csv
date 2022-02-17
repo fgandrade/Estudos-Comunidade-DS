@@ -1,0 +1,5 @@
+id,nome,idade,altura,casado
+0,Pedro,32,1.82,True
+1,Guilherme,23,1.82,False
+2,Ana,29,1.79,True
+3,Carolina,13,1.60,False

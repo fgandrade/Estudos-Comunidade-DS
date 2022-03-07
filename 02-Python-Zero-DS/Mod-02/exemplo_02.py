@@ -128,14 +128,52 @@ bools = [True, False, True, True, False, False, False, False,
          False, False]
 print(df.loc[0:10, bools])
 
+# ============================================
+# RESPONDENDO AS PERGUNTAS DE NEGÓCIO
+# ============================================
 
+df = pd.read_csv('datasets/kc_house_data.csv')
 
+# # 1. Qual a data do imóvel mais antigo no portfólio?
+df['date'] = pd.to_datetime(df['date'])
+print(df.sort_values('date', ascending=True))
 
+# 2. Quantos imóveis possuem o número máximo de andares?
+# print(df['floors'].unique())
 
+print(df[df['floors'] == 3.5].shape)
 
+# 3. Criar uma classificação para o imóveis, separando-os em baixo e alto padrão, de acordo com preço.
+# acima de R$ 540.000 -> alto padrão (high_standard)
+# abaixo de R$ 540.000 -> baixo padrão (low_standard)
 
+df['level'] = 'standard'
 
+df.loc[df['price'] > 540000, 'level'] = 'high_level'
+df.loc[df['price'] < 540000, 'level'] = 'low_level'
+# print(df.head())
 
+# 4. Gostaria de um relatório ordenado pelo preço e contento as seguintes informações:
+# ( id do imóvel, data que o imóvel ficou disponível para compra, o número de quartos, o tamanho total do terreno, o preço, a classificação do imóvel ( alto e baixo padrão ) )
+report = df[['id', 'date', 'price', 'bedrooms', 'sqft_lot', 'level' ]].sort_values('price', ascending=False)
 
+# print(report)
 
+report.to_csv('datasets/report_aula02.csv', index=False)
 
+# 5. Gostaria de um mapa indicando onde as casas estão localizadas geograficamente.
+
+# Plotly - Biblioteca que armazena uma função que desenha mapa
+# Scatter MapBox - Função que desenha um mapa
+import plotly.express as px
+
+data_mapa = df[['id', 'lat', 'long', 'price']]
+
+mapa = px.scatter_mapbox(data_mapa, lat='lat', lon='long', hover_name='id', hover_data=['price'], color_discrete_sequence=['fuchsia'], zoom=3, height=300)
+
+mapa.update_layout(mapbox_style='open-street-map')
+mapa.update_layout(height=600, margin={'r':0, 't':0, 'l':0, 'b':0})
+mapa.show()
+
+# salvando em html
+mapa.write_html('datasets/map_house_rocket.html')

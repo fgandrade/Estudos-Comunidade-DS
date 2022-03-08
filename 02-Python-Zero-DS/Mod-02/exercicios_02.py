@@ -111,7 +111,7 @@ dois_andares = data.loc[data['floors'] == 2]
 # print(dois_andares.shape)
 # print(dois_andares['id'].count())
 
-data['two_floors'] = dois_andares['id'].count()
+# data['two_floors'] = dois_andares['id'].count()
 # print(data)
 
 
@@ -129,6 +129,7 @@ data['condition_regular'] = regular['id'].count()
 #
 bad_waterfront = data.loc[(data['condition_type'] == 'bad') & (data['waterfront'] == 1)]
 # print(bad_waterfront.shape)
+# print(bad_waterfront['id'].count())
 
 data['bad_waterfront'] = bad_waterfront['id'].count()
 # print(data)
@@ -138,6 +139,7 @@ data['bad_waterfront'] = bad_waterfront['id'].count()
 #
 good_new_house = data.loc[(data['condition_type'] == 'good') & (data['house_age'] == 'new_house')]
 # print(good_new_house.shape)
+# print(good_new_house['id'].count())
 
 data['good_new_house'] = good_new_house['id'].count()
 # print(data)
@@ -146,6 +148,8 @@ data['good_new_house'] = good_new_house['id'].count()
 # 14. Qual o valor do imóvel mais caro do tipo "studio" ?
 #
 studio = data.loc[data['dormitory_type'] == 'studio'].sort_values('price', ascending=False).head(1)
+
+
 data['studio'] = studio['price'].to_string(index=False)
 
 # print(data)
@@ -157,6 +161,7 @@ data['studio'] = studio['price'].to_string(index=False)
 
 apartment_2015 = data.loc[(data['dormitory_type'] == 'apartment') & (data['yr_renovated'] == 2015)]
 # print(apartment_2015.shape)
+# print(apartment_2015['id'].count())
 
 data['apartment_2015'] = apartment_2015['id'].count()
 # print(data)
@@ -220,7 +225,7 @@ mapa = px.scatter_mapbox(data_mapa, lat='lat', lon='long', hover_name='id', hove
 
 mapa.update_layout(mapbox_style='open-street-map')
 mapa.update_layout(height=600, margin={'r':0, 't':0, 'l':0, 'b':0})
-mapa.show()
+# mapa.show()
 
 # salvando em html
 mapa.write_html('datasets/map_house_green.html')
